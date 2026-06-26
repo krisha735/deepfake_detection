@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepfake Detector</title>
+</head>
+
+<body>
+
+<!-- ================= POPUP ================= -->
+<div id="popup" class="popup-overlay">
+  <div class="popup-box">
+    <p id="popupText"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<div class="container">
+  <h1>Deepfake Detection Interface</h1>
+  
+  <div class="upload-section">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept=".png, .jpg, .jpeg" required>
+      <button type="submit">Detect</button>
+    </form>
+  </div>
+
+  {% if result %}
+  <div class="result">
+    <h2>System Prediction: 
+      <span style="color: {% if 'FAKE' in result %}#dc3545{% else %}#28a745{% endif %};">
+        {{ result }}
+      </span>
+    </h2>
+
+    <h3>Target Image Calculations</h3>
+    <div class="dashboard-grid">
+      <div class="card alert">
+        <strong>AI Confidence</strong>
+        <p style="font-size: 20px; margin: 5px 0; font-weight: bold; color: #dc3545;">{{ confidence }}</p>
+      </div>
+
+      <div class="card">
+        <strong>Inference Latency</strong>
+        <p style="font-size: 16px; margin: 5px 0; font-weight: bold;">{{ speed }}</p>
+      </div>
+
+      <div class="card">
+        <strong>Face Coordinates</strong>
+        <p style="font-size: 13px; margin: 5px 0; font-family: monospace; color: #666;">
+          X: {{ coords['x'] }}, Y: {{ coords['y'] }}<br>
+          W: {{ coords['width'] }}px, H: {{ coords['height'] }}px
+        </p>
+      </div>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+    <h3>Overall Model Performance Metrics (Dataset Validation)</h3>
+    <ul>
+      <li><strong>Accuracy:</strong> {{ metrics['Accuracy'] }}</li>
+      <li><strong>Precision:</strong> {{ metrics['Precision'] }}</li>
+      <li><strong>Recall:</strong> {{ metrics['Recall'] }}</li>
+      <li><strong>F1 Score:</strong> {{ metrics['F1'] }}</li>
+    </ul>
+
+    {% if cm %}
+      <h3>Confusion Matrix</h3>
+      <pre>{{ cm }}</pre>
+      <img src="/static/matrix.png" alt="Confusion Matrix Visual" class="matrix-image">
+    {% endif %}
+    
+    <button class="print-btn" onclick="window.print()">Print Report</button>
+  </div>
+  {% endif %}
+</div>
+
+<!-- ================= POPUP SCRIPT ================= -->
+<script>
+function showPopup(message) {
+  document.getElementById("popupText").innerText = message;
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+
+  // reset file input so user can re-upload
+  const input = document.querySelector('input[type="file"]');
+  if (input) input.value = "";
+}
+</script>
+
+<!-- Flask error trigger -->
+{% if error %}
+<script>
+  window.onload = function () {
+    showPopup("{{ error }}");
+  };
+</script>
+{% endif %}
+
+</body>
+</html>
