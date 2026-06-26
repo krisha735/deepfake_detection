@@ -6,6 +6,19 @@ To bridge the gap between a locked, decoupled machine learning module and the we
 
 ---
 
+## REAL IMAGE DETECTION RESULT
+<img width="1280" height="719" alt="photo_6111645416496500680_y" src="https://github.com/user-attachments/assets/f2449655-b6db-4c90-b678-9d46f4d8a1fc" />
+
+## FAKE IMAGE DETECTION RESULT
+<img width="1280" height="674" alt="photo_6190642621122809996_y (1)" src="https://github.com/user-attachments/assets/f2e2a79f-5a46-49cc-a8ed-e6c907e93bf0" />
+
+## USER CONTROL TO AVOID SQL INJECTION OR OTHER CYBER ATTACKS
+<img width="730" height="428" alt="photo_6190642621122810004_x (1)" src="https://github.com/user-attachments/assets/3eec91a2-ca9d-4e9e-b5d8-02ca9225f852" />
+
+
+---
+
+
 ## 🚀 Key Architectural Features
 
 * **Decoupled Deep Learning Inference Engine:** Integrates a secure machine learning classifier running state-of-the-art face detection and localized artifact recognition pipelines.
